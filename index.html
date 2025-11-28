@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Workshop Collage — Monochrome</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-title">WorkshopCollage</div>
+        <div class="brand-sub">Levert av – EFKT</div>
+      </div>
+
+      <nav>
+        <button class="nav-btn active" data-view="dashboard">Oppsett</button>
+        <button class="nav-btn" data-view="sorter">Sorter slides</button>
+        <button class="nav-btn" data-view="compare">Sammenligning</button>
+        <button class="nav-btn" data-view="ultimate">Ultimate annonse</button>
+        <button class="nav-btn" data-view="perphotog">Per fotograf</button>
+      </nav>
+
+      <div class="footer">
+        <div class="export-block">
+          <button id="exportProject" class="primary small-solid">Eksporter prosjekt (.wsc)</button>
+          <button id="importProject" class="primary small-solid">Importer prosjekt (.wsc)</button>
+          <input id="importProjectFile" type="file" accept=".wsc,application/json" class="hidden"/>
+        </div>
+
+        <hr class="side-sep"/>
+
+        <button id="resetAll" class="ghost">Reset / Restart</button>
+        <button id="reshuffleAll" class="ghost">Reshuffle alle slides</button>
+        <button id="clearStars" class="ghost">Fjern alle stjerner</button>
+      </div>
+    </aside>
+
+    <main class="content">
+      <!-- DASHBOARD -->
+      <section id="view-dashboard" class="view visible">
+        <h1>Workshop-oppsett</h1>
+
+        <div class="panel">
+          <div class="control">
+            <label>VIS NAVN UNDER BILDE</label>
+            <label class="switch">
+              <input id="toggleNames" type="checkbox"/>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <h2>Fotografer</h2>
+        <div class="panel">
+          <div class="add-row">
+            <input id="newPhotogName" type="text" placeholder="Nytt navn (Per, Pål, André, Line)"/>
+            <button id="addPhotog">Legg til fotograf</button>
+          </div>
+          <div id="photogList" class="photog-list"></div>
+        </div>
+      </section>
+
+      <!-- SORTER -->
+      <section id="view-sorter" class="view">
+        <h1>Foreslåtte slides</h1>
+
+        <div class="panel sorter-header">
+          <div class="sorter-toprow">
+            <button id="sorterPrevSlide" class="nav-arrow">&larr;</button>
+            <div class="sorter-slide-label">
+              <span>Slide </span><span id="sorterSlideNumber">1</span>
+            </div>
+            <button id="sorterNextSlide" class="nav-arrow">&rarr;</button>
+          </div>
+
+          <div class="sorter-name-row">
+            <label>Navn / kategori for denne sliden</label>
+            <input id="sorterCategoryInput" type="text" placeholder="F.eks. Kjøkken 1"/>
+            <small>Dette vises som romnavn / label i presentasjonen.</small>
+          </div>
+
+          <div class="sorter-hint">
+            <small>
+              Velg hvilket bilde fra hver fotograf som skal brukes i denne sliden.
+              Bruk pilene for å bla i bildene deres.
+            </small>
+          </div>
+        </div>
+
+        <div id="sorterPhotogRows" class="panel sorter-rows">
+          <!-- Dynamisk innhold per fotograf legges her av JS -->
+        </div>
+
+        <div class="panel sorter-footer">
+          <button id="sorterApplySlide" class="primary">Bekreft denne sliden</button>
+          <small>Bekreft kopierer valgene dine inn i presentasjonen.</small>
+        </div>
+      </section>
+
+      <!-- COMPARE -->
+      <section id="view-compare" class="view">
+        <h1>Sammenligning (anonym)</h1>
+        <div class="compare-controls">
+          <button id="prevSlide" class="nav-arrow">&larr;</button>
+          <div class="slide-label" id="compareLabel">#1</div>
+          <button id="nextSlide" class="nav-arrow">&rarr;</button>
+          <div class="toggle-names">
+            <label>Vis navn</label>
+            <label class="switch">
+              <input id="toggleNamesCompare" type="checkbox"/>
+              <span class="slider"></span>
+            </label>
+          </div>
+          <button id="reshuffleThis" class="sm ghost">Reshuffle</button>
+        </div>
+
+        <div id="compareGrid" class="grid"></div>
+      </section>
+
+      <!-- ULTIMATE -->
+      <section id="view-ultimate" class="view">
+        <h1>Ultimate annonse</h1>
+        <div class="panel two-col">
+          <div class="control">
+            <button id="exportUltimate" class="primary">Eksporter som PNG</button>
+            <small>Tips: åpne PNG i Preview og «Eksporter som PDF» ved behov.</small>
+          </div>
+          <div class="control">
+            <label>Fast bildebredde (px)</label>
+            <div class="control-row">
+              <input id="exportWidth" type="number" min="400" max="4000" value="1600"/>
+              <button id="applyExportWidth" class="sm">Bruk</button>
+            </div>
+          </div>
+        </div>
+        <div id="ultimateList" class="ultimate-list"></div>
+        <canvas id="exportCanvas" class="hidden"></canvas>
+      </section>
+
+      <!-- PER PHOTOGRAPHER -->
+      <section id="view-perphotog" class="view">
+        <h1>Annonse per fotograf</h1>
+        <div class="panel">
+          <div class="control">
+            <label>Velg fotograf</label>
+            <select id="photogSelect"></select>
+          </div>
+        </div>
+        <div id="perPhotogList" class="ultimate-list"></div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
